@@ -1,0 +1,158 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[english]{babel}
+\usepackage{geometry}
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{array}
+\usepackage{longtable}
+\usepackage{xcolor}
+\usepackage{fancyhdr}
+
+\geometry{margin=1in}
+\pagestyle{fancy}
+\fancyhf{}
+\rhead{CONFIDENTIAL}
+\cfoot{\thepage}
+
+\begin{document}
+
+% Custom title page with logo
+\begin{center}
+\vspace*{1cm}
+\textbf{CONFIDENTIAL}\\[2cm]
+
+\includegraphics[width=0.3\textwidth]{kaiko_logo.png}\\[1.5cm]
+
+{\Huge \textbf{Kaiko Canton Data Application for Broadridge DLR}}\\[0.5cm]
+{\Large High-Level Functional Specifications}\\[1cm]
+{\large Date: April 8th, 2025}\\[2cm]
+\end{center}
+
+%\newpage
+
+\section{Introduction}
+
+This document describes the high-level functional specifications for the planned Kaiko Canton Data Application for Broadridge DLR. Leveraging on DLR's existing work, the Kaiko Data Applications provide a framework for financial data distribution, connecting data producers with consumers through a standardized interface. Data Producers maintain control over data usage within a contractual framework matching capital markets' best practices. Data transfers occur on Canton and via APIs to scale the data distribution while ensuring the possibility of acting on-chain on the data.
+
+The Kaiko Canton Data Application for Broadridge DLR will enable the consumption of Broadridge DLR data on the Canton Network and its distribution to The Tie and RWA.xyz through API.
+
+\section{Data Model}
+
+The solution will process Broadridge DLR repo data. Broadridge anonymizes and aggregates the data before transferring it to Kaiko.
+
+The data is updated daily on a [tbd: business days under XXX Business Day Calendar/calendar days]. Publications occur at a predetermined cutoff time, e.g., 6 PM America/New York.
+
+\section{Functional Model}
+
+\subsection{Data Distribution}
+
+The data transfers between Kaiko and Data Consumers, namely The Tie and RWA.xyz, will be done through REST API.
+
+\subsection{Data Provision Models}
+
+Kaiko data applications will be based on the functional model developed by DRW. In this model, data can be accessed in two ways: within the Non-Observer / Aggregation Model or the Observer Model. The difference essentially lies in the degree to which the Data Application can access data on Canton.
+
+\begin{table}[h!]
+\centering
+\caption{Data Provision Models Comparison}
+\begin{tabular}{>{\raggedright\arraybackslash}p{0.45\textwidth} >{\raggedright\arraybackslash}p{0.45\textwidth}}
+\toprule
+\textbf{Non-Observer/Aggregation Model} & \textbf{Observer Model} \\
+\midrule
+Providers filter and aggregate data before transmission & Providers grant observers access to smart contracts \\
+\addlinespace
+Enhanced privacy with limited exposure to critical contracts & Full and direct visibility into smart contracts for authorized parties \\
+\addlinespace
+Customizable data views for consumers & Simplified data collection through direct contract observation \\
+\addlinespace
+Providers have more control at the cost of additional development & Reduced implementation complexity for the Data Provider \\
+\addlinespace
+& Broader visibility into contract data can raise privacy concerns \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+For the data transfer between Broadridge and Kaiko, we will use the Non-Observer model, allowing for anonymization, pre-aggregation, and enrichment before distribution.
+
+\section{Data Flows}
+
+Information flow between key participants:
+
+\begin{longtable}{>{\raggedright\arraybackslash}p{0.25\textwidth} >{\raggedright\arraybackslash}p{0.65\textwidth}}
+\caption{Participant Roles and Responsibilities} \\
+\toprule
+\textbf{Participant} & \textbf{Responsibilities} \\
+\midrule
+\endfirsthead
+
+\multicolumn{2}{c}{\tablename\ \thetable\ -- \textit{Continued from previous page}} \\
+\toprule
+\textbf{Participant} & \textbf{Responsibilities} \\
+\midrule
+\endhead
+
+\midrule
+\multicolumn{2}{r}{\textit{Continued on next page}} \\
+\endfoot
+
+\bottomrule
+\endlastfoot
+
+\textbf{Data Producer:} Broadridge & 
+\begin{itemize}
+\item Generates repo activity data
+\item Publishes anonymized, pre-aggregated data on schedule
+\item Publication is done on Canton 3.x
+\item Maintains data quality and consistency
+\end{itemize} \\
+\addlinespace
+
+\textbf{Data Application:} Kaiko & 
+\begin{itemize}
+\item Retrieves data from Canton 3.x
+\item Processes and standardizes data formats
+\item Stores data [tbd if any]
+\item Provides secure API access to data consumers, giving them access to authorized data
+\item Manages authentication and access controls
+\end{itemize} \\
+\addlinespace
+
+\textbf{Data Consumer:} TheTie/RWA & 
+\begin{itemize}
+\item Accesses data through Kaiko's standardized API interfaces
+\item Are responsible for utilizing information for downstream applications in accordance with the data license
+\end{itemize} \\
+
+\end{longtable}
+
+\section{Payment Flows}
+
+Transactions are denominated and executed in Canton Coin for transparency and efficiency.
+
+\begin{table}[h!]
+\centering
+\caption{Payment Flow Structure}
+\begin{tabular}{>{\raggedright\arraybackslash}p{0.4\textwidth} >{\raggedright\arraybackslash}p{0.5\textwidth}}
+\toprule
+\textbf{Payment Direction} & \textbf{Description} \\
+\midrule
+The Tie and RWA.xyz $\rightarrow$ Kaiko & Use Canton Coin to pay Kaiko for data distribution services \\
+\addlinespace
+Kaiko $\rightarrow$ Broadridge & Uses Canton Coin to pay Broadridge for data access \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\vfill
+
+\begin{center}
+\textcolor{red}{\textbf{CONFIDENTIAL}}
+\end{center}
+
+This document contains proprietary information that may be confidential and/or privileged. If you are not the intended recipient, kindly notify the sender and delete this document and all attachments immediately. Any use, copying, or disclosure of this information is expressly prohibited.
+
+\end{document}\begin{figure}
+    \centering
+    \includegraphics[width=0.5\linewidth]{kaiko_logo.png}
+\end{figure}

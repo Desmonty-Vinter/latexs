@@ -1,0 +1,196 @@
+\documentclass[12pt,a4paper]{article}
+\usepackage{geometry}
+\geometry{margin=1in}
+\usepackage{lmodern}
+\usepackage{booktabs}
+\usepackage{hyperref}
+\usepackage{enumitem}
+\usepackage{longtable}
+\usepackage{titlesec}
+\usepackage{parskip}
+
+\titleformat{\section}{\large\bfseries}{\thesection.}{1em}{}
+\titleformat{\subsection}{\normalsize\bfseries}{\thesubsection}{1em}{}
+
+\renewcommand{\arraystretch}{1.2}
+
+\begin{document}
+
+\begin{center}
+    {\LARGE\bfseries Broadridge DLR Data Application -- Operations Guide}\\[2ex]
+    \textbf{Version:} 1.0 \hspace{2em} \textbf{Date:} June 20, 2025\\
+\end{center}
+
+\vspace{1em}
+
+\section*{Executive Summary}
+The Broadridge DLR Data Application enables Kaiko to securely distribute anonymized repo market data, originating from Broadridge, to selected clients (The Tie, RWA.xyz) via robust APIs. This document outlines the current (\textbf{Phase 1}) off-chain integration, the upcoming (\textbf{Phase 2}) Canton-based integration, and clarifies the responsibilities and operational setup for all stakeholders.
+
+\section{Implementation Phases}
+
+\subsection*{Phase 1: Off-Chain Data Extraction (Current State)}
+\begin{itemize}[leftmargin=*]
+    \item \textbf{Source:} Broadridge provides anonymized, aggregated repo data via its API.
+    \item \textbf{Data Transfer:} Kaiko extracts the data off-chain through the Broadridge API. Broadridge is responsible for API uptime, data quality, and delivery schedule (\textit{SLA: to be defined}).
+    \item \textbf{Distribution:} Kaiko processes and exposes this data to clients through its secure API.
+\end{itemize}
+
+\subsection*{Phase 2: On-Chain Extraction (Planned)}
+\begin{itemize}[leftmargin=*]
+    \item Data will be published by Broadridge directly to the Canton network.
+    \item Kaiko will retrieve and process the data from Canton and distribute it to clients.
+\end{itemize}
+
+\section{Application Overview}
+
+\subsection*{Core Purpose}
+\begin{itemize}[leftmargin=*]
+    \item Distribute anonymized repo data from Broadridge to licensed clients via Kaiko's API.
+    \item Support best practices of data privacy and contractual compliance.
+    \item Leverage scalable, standardized financial data architecture.
+\end{itemize}
+
+\subsection*{Data Flow Model}
+\begin{itemize}[leftmargin=*]
+    \item \textbf{Non-Observer/Aggregation Model:} Broadridge filters and aggregates before transmission, providing enhanced privacy and control.
+    \item \textbf{Update Frequency:} Daily (business day calendar, details TBD).
+    \item \textbf{Publication Cutoff:} Data available by 6 PM America/New York.
+\end{itemize}
+
+\section{Stakeholders and Responsibilities}
+
+\begin{table}[h!]
+\centering
+\begin{tabular}{p{0.18\textwidth} p{0.22\textwidth} p{0.50\textwidth}}
+\toprule
+\textbf{Party} & \textbf{Role} & \textbf{Key Responsibilities} \\
+\midrule
+Broadridge & Data Producer &
+Generate, anonymize, aggregate and deliver repo data per contract.\\
+& & Provide daily data via API (Phase 1) and ensure API availability, accuracy, and timeliness (SLA to be defined).\\
+& & In Phase 2, publish data to Canton.\\
+\addlinespace
+Kaiko & Data Application Provider &
+Extract, process, and validate data from Broadridge API (Phase 1) or Canton (Phase 2).\\
+& & Standardize data formats and ensure quality.\\
+& & Provide secure API access to authorized clients.\\
+& & Manage authentication and access control.\\
+& & Monitor operations and handle support.\\
+& & Settle payments for data with Broadridge.\\
+\addlinespace
+The Tie, RWA.xyz & Data Consumers &
+Access data via Kaiko's API using secure authentication.\\
+& & Use data in accordance with their license.\\
+& & Pay Kaiko in Canton Coin for access.\\
+& & Report data quality or access issues.\\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\section{Data and Payment Flows}
+
+\subsection*{Data Flow}
+\begin{enumerate}
+    \item Broadridge anonymizes, aggregates, and delivers data via API (Phase 1).
+    \item Kaiko extracts, processes, and validates the data.
+    \item Kaiko exposes data to The Tie and RWA.xyz via its secure API.
+    \item Consumers fetch data for their downstream applications.
+\end{enumerate}
+
+\subsection*{Payment Flow}
+\begin{itemize}[leftmargin=*]
+    \item The Tie and RWA.xyz pay Kaiko (in Canton Coin) for data access.
+    \item Kaiko pays Broadridge (in Canton Coin) for data sourcing.
+    \item All payments executed on-chain for transparency.
+\end{itemize}
+
+\section{Operating Model and SLAs}
+
+\subsection*{Broadridge API (Phase 1)}
+Broadridge is responsible for:
+\begin{itemize}[leftmargin=*]
+    \item API uptime and availability (SLA: to be defined).
+    \item Data accuracy, completeness, and timeliness.
+    \item Notification and resolution of data delivery or quality issues.
+\end{itemize}
+
+\subsection*{Kaiko API (All Phases)}
+Kaiko is responsible for:
+\begin{itemize}[leftmargin=*]
+    \item Secure API availability (Target uptime: 99.9\%).
+    \item Data accuracy and freshness (Target accuracy: 99.95\%).
+    \item Client authentication and access control.
+    \item Support and incident response (see below).
+\end{itemize}
+
+\subsection*{Support and Escalation}
+\begin{itemize}[leftmargin=*]
+    \item \textbf{Support Channels:} Dedicated Slack channels, support email (\href{mailto:support@kaiko.com}{support@kaiko.com}).
+    \item \textbf{Standard Response:} $\leq$ 4 hours for regular issues; $\leq$ 2 hours for technical issues.
+    \item \textbf{On-Call:} 24/5 coverage, with weekend rotation.
+    \item \textbf{Emergency:} PagerDuty escalation for critical incidents; 24/7 engineering on-call.
+\end{itemize}
+
+\section{Technical Architecture}
+
+\begin{itemize}[leftmargin=*]
+    \item \textbf{Data Source:} Broadridge API (Phase 1), Canton 3.x (Phase 2).
+    \item \textbf{API Endpoints:} REST, with secure authentication (API Key/OAuth/JWT).
+    \item \textbf{Data Centers:} OVH Canada (primary), OVH France (secondary).
+    \item \textbf{Security:} Encryption at rest and in transit; role-based access.
+    \item \textbf{Compliance:} Requirements TBD.
+    \item \textbf{Audit Trail:} All access and transactions are logged.
+\end{itemize}
+
+\section{Operational Workflows}
+
+\subsection*{Daily Operations Checklist}
+\begin{enumerate}
+    \item Verify daily data delivery from Broadridge API (Phase 1).
+    \item Process and validate incoming data.
+    \item Confirm API endpoint availability and response times.
+    \item Review authentication and access logs.
+    \item Monitor client support channels and respond as needed.
+\end{enumerate}
+
+\subsection*{Incident Response}
+\begin{enumerate}
+    \item Detection via automated alerts and monitoring.
+    \item Assessment and triage by Kaiko operations.
+    \item Escalation to engineering or Broadridge as needed.
+    \item Communication to clients and stakeholders.
+    \item Post-incident review and process improvement.
+\end{enumerate}
+
+\section{Risks and Mitigation}
+
+\begin{itemize}[leftmargin=*]
+    \item \textbf{Data Delay:} Broadridge API delay triggers Kaiko alert; clients notified.
+    \item \textbf{API Downtime:} Monitored by Kaiko; rapid escalation per SLA.
+    \item \textbf{Data Quality Issues:} QA checks by both Broadridge and Kaiko; issues escalated for resolution.
+\end{itemize}
+
+\section{Contacts and Escalation}
+
+\begin{itemize}[leftmargin=*]
+    \item \textbf{Kaiko Operations Lead:} [To be assigned]
+    \item \textbf{Broadridge Data Operations:} [To be assigned]
+    \item \textbf{Consumer Support:} [To be assigned]
+\end{itemize}
+
+\section{Appendix: Success Metrics and KPIs}
+
+\begin{itemize}[leftmargin=*]
+    \item \textbf{System Uptime:} 99.9\% target
+    \item \textbf{Data Delivery Success:} 100\%
+    \item \textbf{API Response:} $<$2s average
+    \item \textbf{Support Response:} $<$4h average
+    \item \textbf{Client Satisfaction:} Regular feedback and review cycles
+\end{itemize}
+
+\vspace{1em}
+\noindent\textit{Document Owner: Charles Desmonty (\href{mailto:charles.desmonty@kaiko.com}{charles.desmonty@kaiko.com}) \\
+Last Updated: June 20, 2025 \\
+Next Review: Quarterly or upon significant change}
+
+\end{document}

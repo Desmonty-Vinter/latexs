@@ -1,0 +1,109 @@
+\documentclass{article}
+\usepackage{amsmath}
+\usepackage{geometry}
+\geometry{margin=1in}
+
+\title{QCP Instrument Identifiers and Configurations}
+\date{June 17, 2025}
+
+\begin{document}
+\maketitle
+
+\section{Cash}
+\textbf{Identifier:} \texttt{CASH:\{CURRENCY\}}
+
+\textbf{Configuration:}
+\begin{itemize}
+    \item \texttt{CURRENCY}: fiat currency of the investment amount
+\end{itemize}
+
+\textbf{Example:} \texttt{CASH:EUR}
+
+\section{Crypto Spot}
+\textbf{Identifier:} \texttt{CRYPTO:\{CURRENCY\}}
+
+\textbf{Configuration:}
+\begin{itemize}
+    \item \texttt{CURRENCY}: crypto currency of the investment amount
+\end{itemize}
+
+\textbf{Example:} \texttt{CRYPTO:BTC}
+
+\section{Vanilla Option}
+\textbf{Identifier:} \texttt{OPTV:\{SIGN\}\{QUANTITY\}x \{CURRENCY\}-\{MATURITY\}-\{STRIKE\}-\{OPTION\_TYPE\}-\{TIMEZONE\}}
+
+\textbf{Configuration:}
+\begin{itemize}
+    \item \texttt{SIGN}: buyer (+) or seller (-)
+    \item \texttt{QUANTITY}: number of options
+    \item \texttt{CURRENCY}: base asset against USD
+    \item \texttt{MATURITY}: maturity date of the option
+    \item \texttt{STRIKE}: strike price in USD
+    \item \texttt{OPTION\_TYPE}: option type either Call (C) or Put (P)
+    \item \texttt{TIMEZONE}: valuation timezone (NU4=?)
+\end{itemize}
+
+\textbf{Example:} \texttt{OPTV:+100x ETH-30MAY25-4000-C-NU4}
+
+\section{Basis Trade}
+\textbf{Identifier:} 
+\begin{small}
+\texttt{BASIS:\{SIGN\}\{INVESTMENT\}x \{BASE\}/\{QUOTE\}-}\\
+\texttt{\{COUPON\_RATE\}-\{COUPON\_GRANULARITY\}-\{TRADE\_DATE\}-}\\
+\texttt{\{MATURITY\_DATE\}-\{EXCHANGE\}}
+\end{small}
+
+\textbf{Configuration:}
+\begin{itemize}
+    \item \texttt{SIGN}: buyer (+) or seller (-)
+    \item \texttt{INVESTMENT}: initial investment
+    \item \texttt{BASE}: base asset
+    \item \texttt{QUOTE}: quote asset
+    \item \texttt{COUPON\_RATE}: coupon rate in quote currency
+    \item \texttt{COUPON\_GRANULARITY}: granularity of the coupon payment; PA=per annum
+    \item \texttt{TRADE\_DATE}: trade date of the contract
+    \item \texttt{MATURITY\_DATE}: maturity date of the contract
+    \item \texttt{EXCHANGE}: exchange can be either DBU=Deribit, BNO=Binance
+\end{itemize}
+
+\textbf{Example:} 
+\begin{small}
+\texttt{BASIS:+3,184,694.85x BTC/USDC-3.70PA-29APR25-}\\
+\texttt{30MAY25-DBU}
+\end{small}
+
+\section{Fixed Coupon Convertible}
+\textbf{Identifier:} 
+\begin{small}
+\texttt{FCC:\{SIGN\}\{INVESTMENT\}x \{ASSET\}-\{COUPON\_GRANULARITY\}-}\\
+\texttt{\{COUPON\_RATE\}-\{TRADE\_DATE\}-\{MATURITY\_DATE\}-\{BARRIER\}-}\\
+\texttt{\{STRIKE\}-\{COUPON\_LEVEL\}-\{OPTION\_TYPE\}-\{BARRIER\_TYPE\}-}\\
+\texttt{\{PROTECTION\_LEVEL\}-\{TIMEZONE\}-\{CURRENCY\}}
+\end{small}
+
+\textbf{Configuration:}
+\begin{itemize}
+    \item \texttt{SIGN}: buyer (+) or seller (-)
+    \item \texttt{INVESTMENT}: initial investment
+    \item \texttt{ASSET}: underlying asset
+    \item \texttt{COUPON\_GRANULARITY}: granularity of the coupon payment; 1W= every week
+    \item \texttt{COUPON\_RATE}: annual coupon rate
+    \item \texttt{TRADE\_DATE}: trade date of the contract
+    \item \texttt{MATURITY\_DATE}: maturity date of the contract
+    \item \texttt{BARRIER}: activation barrier; either ABOVE or BELOW
+    \item \texttt{STRIKE}: strike price
+    \item \texttt{COUPON\_LEVEL}: coupon level barrier
+    \item \texttt{OPTION\_TYPE}: option type either Call (C) or Put (P)
+    \item \texttt{BARRIER\_TYPE}: barrier type: ERKI=European reverse knock-in, ERKO=European reverse knock-out
+    \item \texttt{PROTECTION\_LEVEL}: protection level barrier for the principal
+    \item \texttt{TIMEZONE}: valuation timezone; SG4=Singapore 4pm
+    \item \texttt{CURRENCY}: investment amount currency
+\end{itemize}
+
+\textbf{Example:} 
+\begin{small}
+\texttt{FCC:+400,000x BTC-1W-24.00PA-16MAY25-27JUN25-ABOVE-}\\
+\texttt{70000-70000-P-ERKI-65000-SG4-USD}
+\end{small}
+
+\end{document}

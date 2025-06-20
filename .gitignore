@@ -1,0 +1,43 @@
+# LaTeX intermediate and output files
+*.aux
+*.bbl
+*.blg
+*.brf
+*.idx
+*.ilg
+*.ind
+*.lof
+*.log
+*.lot
+*.out
+*.toc
+*.acn
+*.acr
+*.alg
+*.glg
+*.glo
+*.gls
+*.fls
+*.fdb_latexmk
+*.synctex.gz
+*.nav
+*.snm
+*.tdo
+*.dvi
+*.ps
+*.run.xml
+*.bcf
+*.xdy
+
+# Editors and OS files
+*~
+*.swp
+*.bak
+.DS_Store
+Thumbs.db
+
+# Latexmk specific
+latexmkrc
+
+# VSCode settings (optional)
+.vscode/

@@ -72,13 +72,13 @@ Generate, anonymize, aggregate and deliver repo data per contract.\\
 \addlinespace
 Kaiko & Data Application Provider &
 Extract, process, and validate data from Broadridge API (Phase 1) or Canton (Phase 2).\\
-& & Standardize data formats and ensure quality.\\
+& & Standardize data formats.\\
 & & Provide secure API access to authorized clients.\\
 & & Manage authentication and access control.\\
 & & Monitor operations and handle support.\\
 & & Settle payments for data with Broadridge.\\
 \addlinespace
-The Tie, RWA.xyz & Data Consumers &
+TheTie, RWA.xyz & Data Consumers &
 Access data via Kaiko's API using secure authentication.\\
 & & Use data in accordance with their license.\\
 & & Pay Kaiko in Canton Coin for access.\\
@@ -118,7 +118,8 @@ Broadridge is responsible for:
 Kaiko is responsible for:
 \begin{itemize}[leftmargin=*]
     \item Secure API availability (Target uptime: 99.9\%).
-    \item Data accuracy and freshness (Target accuracy: 99.95\%).
+    \item Data accuracy (Target accuracy: 100\%).
+    \item Data freshness (Target accuracy: 99.95\%).
     \item Client authentication and access control.
     \item Support and incident response (see below).
 \end{itemize}
@@ -128,30 +129,29 @@ Kaiko is responsible for:
     \item \textbf{Support Channels:} Dedicated Slack channels, support email (\href{mailto:support@kaiko.com}{support@kaiko.com}).
     \item \textbf{Standard Response:} $\leq$ 4 hours for regular issues; $\leq$ 2 hours for technical issues.
     \item \textbf{On-Call:} 24/5 coverage, with weekend rotation.
+
+    \item \textbf{Escalation Path:}
+    \begin{enumerate}
+        \item \textbf{Level 1:} Operations team (first response and triage)
+        \item \textbf{Level 2:} Engineering on-call (for unresolved technical issues or critical incidents)
+        \item \textbf{Level 3:} \textit{Ugo Plouviez, Lead Programmer} (\href{mailto:ugo.plouviez@kaiko.com}{ugo.plouviez@kaiko.com})
+    \end{enumerate}
+
     \item \textbf{Emergency:} PagerDuty escalation for critical incidents; 24/7 engineering on-call.
 \end{itemize}
 
 \section{Technical Architecture}
 
 \begin{itemize}[leftmargin=*]
-    \item \textbf{Data Source:} Broadridge API (Phase 1), Canton 3.x (Phase 2).
-    \item \textbf{API Endpoints:} REST, with secure authentication (API Key/OAuth/JWT).
-    \item \textbf{Data Centers:} OVH Canada (primary), OVH France (secondary).
+    \item \textbf{Data Source:} Broadridge API (Phase 1), Canton (Phase 2).
+    \item \textbf{API Endpoints:} REST, with secure authentication (API Key).
+    \item \textbf{Data Centers:} OVH US.
     \item \textbf{Security:} Encryption at rest and in transit; role-based access.
     \item \textbf{Compliance:} Requirements TBD.
     \item \textbf{Audit Trail:} All access and transactions are logged.
 \end{itemize}
 
 \section{Operational Workflows}
-
-\subsection*{Daily Operations Checklist}
-\begin{enumerate}
-    \item Verify daily data delivery from Broadridge API (Phase 1).
-    \item Process and validate incoming data.
-    \item Confirm API endpoint availability and response times.
-    \item Review authentication and access logs.
-    \item Monitor client support channels and respond as needed.
-\end{enumerate}
 
 \subsection*{Incident Response}
 \begin{enumerate}
